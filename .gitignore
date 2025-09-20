@@ -1,0 +1,36 @@
+# Node
+node_modules
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+package-lock.json
+
+# Env
+.env
+.env.*
+*.env
+
+# Logs
+*.log
+logs
+
+# Build/Dist
+dist
+build
+coverage
+
+# Prisma
+prisma/dev.db
+prisma/*.sqlite
+prisma/*.db
+
+# Docker volumes
+postgres_data
+.docker
+.tmp
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode
+.idea
