@@ -1,7 +1,7 @@
 {
   "name": "commitsight-backend",
   "version": "1.0.0",
-  "description": "Backend do CommitSight",
+  "description": "CommitSight Backend",
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",

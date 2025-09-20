@@ -8,30 +8,30 @@ import { createError } from '../middleware/errorHandler';
 const router = Router();
 const prisma = new PrismaClient();
 
-// Analisar repositório
+// Analyze repository
 router.post('/analyze', authenticateToken, async (req: AuthRequest, res, next) => {
   try {
     const { repositoryUrl } = req.body;
 
     if (!repositoryUrl) {
-      throw createError('URL do repositório é obrigatória', 400);
+      throw createError('Repository URL is required', 400);
     }
 
-    // Extrair owner e repo da URL
+    // Extract owner and repo from URL
     const urlMatch = repositoryUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (!urlMatch) {
-      throw createError('URL do repositório inválida', 400);
+      throw createError('Invalid repository URL', 400);
     }
 
     const [, owner, repo] = urlMatch;
 
-    // Verificar se o repositório já foi analisado
+    // Check if repository has already been analyzed
     const existingRepo = await prisma.repository.findUnique({
       where: { fullName: `${owner}/${repo}` }
     });
 
     if (existingRepo) {
-      // Retornar análises existentes
+      // Return existing analyses
       const analyses = await prisma.analysis.findMany({
         where: { repositoryId: existingRepo.id },
         orderBy: { createdAt: 'desc' }
@@ -43,12 +43,12 @@ router.post('/analyze', authenticateToken, async (req: AuthRequest, res, next) =
       });
     }
 
-    // Analisar repositório
+    // Analyze repository
     const analysisService = new AnalysisService(process.env.GITHUB_TOKEN!);
     const result = await analysisService.analyzeRepository(owner, repo, req.user!.id);
 
     return res.json({
-      message: 'Repositório analisado com sucesso',
+      message: 'Repository analyzed successfully',
       repository: result.repository,
       analyses: result.analyses.map(a => ({ type: a.type, data: a.data }))
     });

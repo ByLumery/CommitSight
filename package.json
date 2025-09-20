@@ -1,7 +1,7 @@
 {
   "name": "github-analyzer",
   "version": "1.0.0",
-  "description": "CommitSight - Análise completa de repositórios do GitHub",
+  "description": "CommitSight - Complete GitHub repository analysis",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",

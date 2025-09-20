@@ -1,101 +1,101 @@
 # CommitSight
 
-Um projeto full stack para análise completa de repositórios do GitHub, desenvolvido com tecnologias modernas e foco em performance e usabilidade.
+A full stack project for comprehensive GitHub repository analysis, developed with modern technologies and focused on performance and usability.
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-### 📊 Análise de Repositórios
-- **Frequência de commits**: Visualização de commits por semana/mês
-- **Complexidade do código**: Análise de linhas de código e estrutura
-- **Principais contribuidores**: Ranking e estatísticas de contribuidores
-- **Linguagens mais usadas**: Distribuição de tecnologias no repositório
-- **Estatísticas gerais**: Issues, PRs, stars, forks e muito mais
+### 📊 Repository Analysis
+- **Commit frequency**: Visualization of commits by week/month
+- **Code complexity**: Analysis of code lines and structure
+- **Top contributors**: Ranking and contributor statistics
+- **Most used languages**: Technology distribution in the repository
+- **General statistics**: Issues, PRs, stars, forks and much more
 
-### 🔐 Autenticação e Usuários
-- Sistema de login/registro seguro
-- Gerenciamento de perfil do usuário
-- Repositórios favoritos
-- Histórico de análises
+### 🔐 Authentication and Users
+- Secure login/registration system
+- User profile management
+- Favorite repositories
+- Analysis history
 
-### 📈 Dashboards Interativos
-- Gráficos de commits com Chart.js/Recharts
-- Distribuição de linguagens em pizza
-- Ranking de contribuidores
-- Tabelas de issues e pull requests
-- Exportação de relatórios em CSV
+### 📈 Interactive Dashboards
+- Commit charts with Chart.js/Recharts
+- Language distribution pie charts
+- Contributor rankings
+- Issues and pull request tables
+- CSV report export
 
-### 🐳 Deploy e Infraestrutura
-- Docker Compose para desenvolvimento
-- Configuração para produção
-- Banco PostgreSQL
-- API REST completa
+### 🐳 Deploy and Infrastructure
+- Docker Compose for development
+- Production configuration
+- PostgreSQL database
+- Complete REST API
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
 ### Backend
 - **Node.js** + **Express** + **TypeScript**
-- **PostgreSQL** com **Prisma ORM**
-- **JWT** para autenticação
-- **GitHub REST API** para integração
-- **Jest** para testes
+- **PostgreSQL** with **Prisma ORM**
+- **JWT** for authentication
+- **GitHub REST API** for integration
+- **Jest** for testing
 
 ### Frontend
 - **React 18** + **TypeScript**
-- **Tailwind CSS** para estilização
-- **React Router** para navegação
-- **React Query** para gerenciamento de estado
-- **Recharts** para visualizações
-- **React Hook Form** para formulários
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **React Query** for state management
+- **Recharts** for visualizations
+- **React Hook Form** for forms
 
 ### DevOps
 - **Docker** + **Docker Compose**
-- **PostgreSQL** como banco de dados
-- **Nginx** para proxy reverso (produção)
+- **PostgreSQL** as database
+- **Nginx** for reverse proxy (production)
 
-## 📋 Pré-requisitos
+## 📋 Prerequisites
 
 - Node.js 18+ 
-- Docker e Docker Compose
-- Conta no GitHub (para token de API)
+- Docker and Docker Compose
+- GitHub account (for API token)
 
-## 🚀 Instalação e Configuração
+## 🚀 Installation and Configuration
 
-### 1. Clone o repositório
+### 1. Clone the repository
 ```bash
-git clone https://github.com/seu-usuario/commitsight.git
+git clone https://github.com/your-username/commitsight.git
 cd commitsight
 ```
 
-### 2. Configure as variáveis de ambiente
+### 2. Configure environment variables
 ```bash
 cp env.example .env
 ```
 
-Edite o arquivo `.env` com suas configurações:
+Edit the `.env` file with your settings:
 ```env
 # GitHub API
-GITHUB_TOKEN=seu_token_do_github
+GITHUB_TOKEN=your_github_token
 
 # Database
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/commitsight
 
 # JWT Secret
-JWT_SECRET=sua_chave_secreta_jwt
+JWT_SECRET=your_jwt_secret_key
 
 # API URL
 REACT_APP_API_URL=http://localhost:3001
 ```
 
-### 3. Execute com Docker (Recomendado)
+### 3. Run with Docker (Recommended)
 ```bash
-# Construir e iniciar todos os serviços
+# Build and start all services
 docker-compose up --build
 
-# Ou em background
+# Or in background
 docker-compose up -d --build
 ```
 
-### 4. Ou execute localmente
+### 4. Or run locally
 
 #### Backend
 ```bash
@@ -112,39 +112,39 @@ npm install
 npm start
 ```
 
-## 🔧 Configuração do GitHub Token
+## 🔧 GitHub Token Configuration
 
-1. Acesse [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
-2. Clique em "Generate new token"
-3. Selecione os escopos necessários:
-   - `repo` (para repositórios privados)
-   - `public_repo` (para repositórios públicos)
-4. Copie o token e adicione no arquivo `.env`
+1. Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+2. Click "Generate new token"
+3. Select the necessary scopes:
+   - `repo` (for private repositories)
+   - `public_repo` (for public repositories)
+4. Copy the token and add it to the `.env` file
 
-## 📱 Como Usar
+## 📱 How to Use
 
-### 1. Acesse a aplicação
+### 1. Access the application
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:3001
 
-### 2. Crie uma conta
-- Clique em "Criar Conta" na página inicial
-- Preencha seus dados
-- Faça login
+### 2. Create an account
+- Click "Create Account" on the home page
+- Fill in your data
+- Log in
 
-### 3. Analise um repositório
-- Cole a URL do repositório GitHub
-- Clique em "Analisar"
-- Aguarde o processamento
-- Visualize os resultados no dashboard
+### 3. Analyze a repository
+- Paste the GitHub repository URL
+- Click "Analyze"
+- Wait for processing
+- View results in the dashboard
 
-### 4. Explore os dados
-- **Dashboard**: Visão geral de todos os repositórios
-- **Detalhes**: Análise profunda de um repositório específico
-- **Perfil**: Suas estatísticas pessoais
-- **Exportar**: Baixe relatórios em CSV
+### 4. Explore the data
+- **Dashboard**: Overview of all repositories
+- **Details**: Deep analysis of a specific repository
+- **Profile**: Your personal statistics
+- **Export**: Download CSV reports
 
-## 🧪 Testes
+## 🧪 Testing
 
 ### Backend
 ```bash
@@ -159,111 +159,111 @@ cd frontend
 npm test
 ```
 
-## 📊 Estrutura do Projeto
+## 📊 Project Structure
 
 ```
 commitsight/
-├── backend/                 # API Node.js + Express
+├── backend/                 # Node.js + Express API
 │   ├── src/
-│   │   ├── routes/         # Rotas da API
-│   │   ├── services/       # Serviços (GitHub API, Análise)
+│   │   ├── routes/         # API Routes
+│   │   ├── services/       # Services (GitHub API, Analysis)
 │   │   ├── middleware/     # Middlewares (Auth, Error)
-│   │   └── __tests__/      # Testes
-│   ├── prisma/            # Schema do banco
+│   │   └── __tests__/      # Tests
+│   ├── prisma/            # Database Schema
 │   └── Dockerfile
 ├── frontend/              # React + TypeScript
 │   ├── src/
-│   │   ├── components/    # Componentes React
-│   │   ├── pages/         # Páginas da aplicação
-│   │   ├── hooks/         # Custom hooks
-│   │   └── services/      # Serviços (API)
+│   │   ├── components/    # React Components
+│   │   ├── pages/         # Application Pages
+│   │   ├── hooks/         # Custom Hooks
+│   │   └── services/      # Services (API)
 │   └── Dockerfile
-├── docker-compose.yml     # Orquestração dos serviços
+├── docker-compose.yml     # Service Orchestration
 └── README.md
 ```
 
 ## 🔌 API Endpoints
 
-### Autenticação
-- `POST /api/auth/register` - Registrar usuário
+### Authentication
+- `POST /api/auth/register` - Register user
 - `POST /api/auth/login` - Login
-- `GET /api/auth/verify` - Verificar token
+- `GET /api/auth/verify` - Verify token
 
-### Repositórios
-- `GET /api/repositories` - Listar repositórios do usuário
-- `POST /api/repositories/analyze` - Analisar repositório
-- `GET /api/repositories/:id` - Detalhes do repositório
-- `POST /api/repositories/:id/favorite` - Adicionar aos favoritos
+### Repositories
+- `GET /api/repositories` - List user repositories
+- `POST /api/repositories/analyze` - Analyze repository
+- `GET /api/repositories/:id` - Repository details
+- `POST /api/repositories/:id/favorite` - Add to favorites
 
-### Análises
-- `GET /api/analysis/repository/:id` - Análises do repositório
-- `GET /api/analysis/repository/:id/stats` - Estatísticas
-- `GET /api/analysis/repository/:id/export/csv` - Exportar CSV
+### Analysis
+- `GET /api/analysis/repository/:id` - Repository analysis
+- `GET /api/analysis/repository/:id/stats` - Statistics
+- `GET /api/analysis/repository/:id/export/csv` - Export CSV
 
-### Usuário
-- `GET /api/users/profile` - Perfil do usuário
-- `PUT /api/users/profile` - Atualizar perfil
-- `GET /api/users/stats` - Estatísticas do usuário
+### User
+- `GET /api/users/profile` - User profile
+- `PUT /api/users/profile` - Update profile
+- `GET /api/users/stats` - User statistics
 
 ## 🚀 Deploy
 
-### Render (Recomendado)
-1. Conecte seu repositório ao Render
-2. Configure as variáveis de ambiente
-3. Deploy automático
+### Render (Recommended)
+1. Connect your repository to Render
+2. Configure environment variables
+3. Automatic deployment
 
 ### Railway
-1. Conecte ao Railway
+1. Connect to Railway
 2. Configure PostgreSQL
 3. Deploy
 
 ### Vercel (Frontend) + Railway (Backend)
-1. Frontend no Vercel
-2. Backend no Railway
-3. Configure as URLs
+1. Frontend on Vercel
+2. Backend on Railway
+3. Configure URLs
 
-## 🤝 Contribuição
+## 🤝 Contributing
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📝 Licença
+## 📝 License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
 
-## 🆘 Suporte
+## 🆘 Support
 
-Se você encontrar algum problema ou tiver dúvidas:
+If you encounter any problems or have questions:
 
-1. Verifique a [documentação](README.md)
-2. Procure em [Issues](https://github.com/seu-usuario/commitsight/issues)
-3. Crie uma nova issue se necessário
+1. Check the [documentation](README.md)
+2. Search in [Issues](https://github.com/your-username/commitsight/issues)
+3. Create a new issue if necessary
 
 ## 🎯 Roadmap
 
-- [ ] Suporte a múltiplos repositórios por usuário
-- [ ] Exportação em PDF
-- [ ] Notificações por email
-- [ ] Análise de complexidade de código
-- [ ] Integração com GitHub Actions
-- [ ] API GraphQL
+- [ ] Support for multiple repositories per user
+- [ ] PDF export
+- [ ] Email notifications
+- [ ] Code complexity analysis
+- [ ] GitHub Actions integration
+- [ ] GraphQL API
 - [ ] PWA (Progressive Web App)
-- [ ] Temas dark/light
-- [ ] Análise de sentimentos em commits
-- [ ] Comparação entre repositórios
+- [ ] Dark/light themes
+- [ ] Commit sentiment analysis
+- [ ] Repository comparison
 
-## 📊 Estatísticas do Projeto
+## 📊 Project Statistics
 
 - **Backend**: 100% TypeScript
 - **Frontend**: React 18 + TypeScript
-- **Testes**: Jest + Testing Library
-- **Cobertura**: >80%
+- **Testing**: Jest + Testing Library
+- **Coverage**: >80%
 - **Performance**: Lighthouse 90+
-- **Acessibilidade**: WCAG 2.1 AA
+- **Accessibility**: WCAG 2.1 AA
 
 ---
 
-Desenvolvido com ❤️ para a comunidade de desenvolvedores
+Developed with ❤️ for the developer community

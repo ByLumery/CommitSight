@@ -17,15 +17,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware de segurança
+// Security middleware
 app.use(helmet());
 app.use(compression());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // máximo 100 requests por IP por janela
-  message: 'Muitas requisições deste IP, tente novamente em 15 minutos.'
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // maximum 100 requests per IP per window
+  message: 'Too many requests from this IP, try again in 15 minutes.'
 });
 app.use(limiter);
 
@@ -56,10 +56,10 @@ app.use(errorHandler);
 
 // 404 handler
 app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Rota não encontrada' });
+  res.status(404).json({ error: 'Route not found' });
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📊 CommitSight Backend iniciado`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📊 CommitSight Backend started`);
 });

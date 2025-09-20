@@ -8,7 +8,7 @@ export const api = axios.create({
   timeout: 30000,
 });
 
-// Interceptor para adicionar token automaticamente
+// Interceptor to automatically add token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -22,7 +22,7 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor para lidar com respostas
+// Interceptor to handle responses
 api.interceptors.response.use(
   (response) => response,
   (error) => {

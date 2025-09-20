@@ -21,7 +21,7 @@ interface CommitChartProps {
 }
 
 const CommitChart: React.FC<CommitChartProps> = ({ repositories }) => {
-  // Processar dados para o gráfico
+  // Process data for the chart
   const processCommitData = () => {
     const commitData: { [key: string]: number } = {};
     
@@ -36,11 +36,11 @@ const CommitChart: React.FC<CommitChartProps> = ({ repositories }) => {
       });
     });
 
-    // Converter para array e ordenar por data
+    // Convert to array and sort by date
     return Object.entries(commitData)
       .map(([date, commits]) => ({ date, commits }))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .slice(-12); // Últimas 12 semanas
+      .slice(-12); // Last 12 weeks
   };
 
   const data = processCommitData();
@@ -48,7 +48,7 @@ const CommitChart: React.FC<CommitChartProps> = ({ repositories }) => {
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-gray-500">
-        <p>Nenhum dado de commit disponível</p>
+        <p>No commit data available</p>
       </div>
     );
   }

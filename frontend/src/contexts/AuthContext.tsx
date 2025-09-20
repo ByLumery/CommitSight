@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading] = useState(false);
 
-  // Aqui você pode colocar sua lógica real de login/logout (API, etc)
+  // Here you can put your real login/logout logic (API, etc)
   const login = async (email: string, password: string) => {
     console.log("Login:", email, password);
     setUser({ id: "1", email, name: "Demo User" });
@@ -53,6 +53,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useAuth = (): AuthContextValue => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth deve ser usado dentro de AuthProvider");
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
 };

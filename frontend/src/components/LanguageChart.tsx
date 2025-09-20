@@ -22,7 +22,7 @@ interface LanguageChartProps {
 }
 
 const LanguageChart: React.FC<LanguageChartProps> = ({ repositories }) => {
-  // Processar dados para o gráfico
+  // Process data for the chart
   const processLanguageData = () => {
     const languageData: { [key: string]: number } = {};
     
@@ -32,11 +32,11 @@ const LanguageChart: React.FC<LanguageChartProps> = ({ repositories }) => {
       });
     });
 
-    // Converter para array e ordenar por bytes
+    // Convert to array and sort by bytes
     return Object.entries(languageData)
       .map(([name, bytes]) => ({ name, bytes }))
       .sort((a, b) => b.bytes - a.bytes)
-      .slice(0, 8); // Top 8 linguagens
+      .slice(0, 8); // Top 8 languages
   };
 
   const data = processLanguageData();
@@ -44,12 +44,12 @@ const LanguageChart: React.FC<LanguageChartProps> = ({ repositories }) => {
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-gray-500">
-        <p>Nenhum dado de linguagem disponível</p>
+        <p>No language data available</p>
       </div>
     );
   }
 
-  // Cores para o gráfico
+  // Colors for the chart
   const COLORS = [
     '#3b82f6', '#ef4444', '#10b981', '#f59e0b',
     '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'

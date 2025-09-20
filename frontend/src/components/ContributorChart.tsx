@@ -22,7 +22,7 @@ interface ContributorChartProps {
 }
 
 const ContributorChart: React.FC<ContributorChartProps> = ({ repositories }) => {
-  // Processar dados para o gráfico
+  // Process data for the chart
   const processContributorData = () => {
     const contributorData: { [key: string]: number } = {};
     
@@ -33,11 +33,11 @@ const ContributorChart: React.FC<ContributorChartProps> = ({ repositories }) => 
       });
     });
 
-    // Converter para array e ordenar por commits
+    // Convert to array and sort by commits
     return Object.entries(contributorData)
       .map(([username, commits]) => ({ username, commits }))
       .sort((a, b) => b.commits - a.commits)
-      .slice(0, 10); // Top 10 contribuidores
+      .slice(0, 10); // Top 10 contributors
   };
 
   const data = processContributorData();
@@ -45,7 +45,7 @@ const ContributorChart: React.FC<ContributorChartProps> = ({ repositories }) => 
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-gray-500">
-        <p>Nenhum dado de contribuidor disponível</p>
+        <p>No contributor data available</p>
       </div>
     );
   }
