@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import axios from "axios";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
 export type User = {
   id: string;
@@ -18,12 +20,85 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Here you can put your real login/logout logic (API, etc)
+  const fetchVerifiedUser = async (): Promise<User | null> => {
+    const verifyResponse = await api.get("/auth/verify");
+    return verifyResponse.data?.user ?? null;
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const initializeAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      setLoading(true);
+      try {
+        const verifiedUser = await fetchVerifiedUser();
+        if (isMounted) {
+          setUser(verifiedUser);
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          localStorage.removeItem("token");
+          delete api.defaults.headers.common["Authorization"];
+        }
+        if (isMounted) {
+          setUser(null);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    initializeAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const login = async (email: string, password: string) => {
-    console.log("Login:", email, password);
-    setUser({ id: "1", email, name: "Demo User" });
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      const { token, user: userData } = res.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
+      let resolvedUser: User | null = userData ?? null;
+      if (!resolvedUser && token) {
+        try {
+          resolvedUser = await fetchVerifiedUser();
+        } catch (verifyError) {
+          if (axios.isAxiosError(verifyError) && verifyError.response?.status === 401) {
+            localStorage.removeItem("token");
+            delete api.defaults.headers.common["Authorization"];
+          }
+          throw verifyError;
+        }
+      }
+
+      setUser(resolvedUser);
+    } catch (error) {
+      localStorage.removeItem("token");
+      delete api.defaults.headers.common["Authorization"];
+      setUser(null);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const register = async (email: string, password: string, name?: string) => {
@@ -33,6 +108,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     console.log("Logout");
+    localStorage.removeItem("token");
+    delete api.defaults.headers.common["Authorization"];
     setUser(null);
   };
 
