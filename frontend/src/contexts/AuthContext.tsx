@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import api from "../services/api";
 
 export type User = {
   id: string;
@@ -18,21 +19,62 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Here you can put your real login/logout logic (API, etc)
+  // Check for existing token on mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Set token in axios headers
+      (api.defaults.headers.common as any).Authorization = `Bearer ${token}`;
+      
+      // Verify token with backend
+      api.get('/auth/me')
+        .then(response => {
+          setUser(response.data);
+        })
+        .catch((error) => {
+          console.log('Token verification failed:', error);
+          localStorage.removeItem('token');
+          setUser(null);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
   const login = async (email: string, password: string) => {
-    console.log("Login:", email, password);
-    setUser({ id: "1", email, name: "Demo User" });
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      const { user, token } = response.data;
+      
+      localStorage.setItem('token', token);
+      (api.defaults.headers.common as any).Authorization = `Bearer ${token}`;
+      setUser(user);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const register = async (email: string, password: string, name?: string) => {
-    console.log("Register:", email, password, name);
-    setUser({ id: "1", email, name: name ?? "Demo User" });
+    try {
+      const response = await api.post('/auth/register', { email, password, name });
+      const { user, token } = response.data;
+      
+      localStorage.setItem('token', token);
+      (api.defaults.headers.common as any).Authorization = `Bearer ${token}`;
+      setUser(user);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {
-    console.log("Logout");
+    localStorage.removeItem('token');
+    delete (api.defaults.headers.common as any).Authorization;
     setUser(null);
   };
 

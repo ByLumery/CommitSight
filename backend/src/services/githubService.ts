@@ -81,7 +81,7 @@ export class GitHubService {
       headers: {
         'Authorization': `token ${token}`,
         'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'GitHub-Analyzer'
+        'User-Agent': 'CommitSight'
       }
     });
   }

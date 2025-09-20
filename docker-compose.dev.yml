@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_DB: github_analyzer
+      POSTGRES_DB: commitsight
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -12,7 +12,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - github-analyzer-network
+      - commitsight-network
 
   backend:
     build:
@@ -22,13 +22,13 @@ services:
       - "3001:3001"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/github_analyzer
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/commitsight
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
       - postgres
     networks:
-      - github-analyzer-network
+      - commitsight-network
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -45,7 +45,7 @@ services:
     depends_on:
       - backend
     networks:
-      - github-analyzer-network
+      - commitsight-network
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -54,5 +54,5 @@ volumes:
   postgres_data:
 
 networks:
-  github-analyzer-network:
+  commitsight-network:
     driver: bridge

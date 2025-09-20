@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 import { Github, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 const Login: React.FC = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -13,6 +11,12 @@ const Login: React.FC = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const t = localStorage.getItem("token");
+    if (t) navigate("/dashboard");
+  }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -24,13 +28,23 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
 
     try {
-      await login(formData.email, formData.password);
-      toast.success('Login realizado com sucesso!');
-      navigate('/dashboard');
-    } catch (error: any) {
-      toast.error(error.message);
+      const payload = { email: formData.email.trim().toLowerCase(), password: formData.password };
+      const res = await api.post("/auth/login", payload);
+      const token = res.data?.token;
+      if (!token) {
+        setError("Login response does not contain token");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+      (api.defaults.headers.common as any).Authorization = `Bearer ${token}`;
+      navigate("/dashboard");
+    } catch (err: any) {
+      const msg = err?.response?.data?.error || err?.message || "Login failed";
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -117,6 +131,8 @@ const Login: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {error && <p className="text-red-600 text-sm">{error}</p>}
 
           <div>
             <button

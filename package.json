@@ -1,5 +1,5 @@
 {
-  "name": "github-analyzer",
+  "name": "commitsight",
   "version": "1.0.0",
   "description": "CommitSight - Complete GitHub repository analysis",
   "main": "index.js",
