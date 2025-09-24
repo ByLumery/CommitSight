@@ -1,0 +1,24 @@
+{
+  "name": "CommitSight",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "postCreateCommand": "cd backend && npm install || true && cd ../frontend && npm install || true",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.copilot",
+        "github.copilot-chat",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 3001],
+  "remoteEnv": {
+    "REACT_APP_API_URL": "http://localhost:3001/api"
+  }
+}
