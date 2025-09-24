@@ -113,6 +113,14 @@ router.get('/:id', authenticateToken, async (req: AuthRequest, res, next) => {
         },
         analyses: {
           orderBy: { createdAt: 'desc' }
+        },
+        _count: {
+          select: {
+            commits: true,
+            contributors: true,
+            issues: true,
+            pullRequests: true
+          }
         }
       }
     });

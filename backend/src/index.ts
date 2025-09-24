@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
 
 import { errorHandler } from './middleware/errorHandler';
 import { authRoutes } from './routes/auth';
@@ -16,7 +17,16 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      "default-src": ["'self'"],
+      "style-src": ["'self'", "'unsafe-inline'"],
+      "font-src": ["'self'", "data:"],
+    },
+  },
+}));
 app.use(compression());
 
 // Rate limiting
@@ -43,6 +53,9 @@ app.use(express.urlencoded({ extended: true }));
 // Health check
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'build')));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/repositories', repositoryRoutes);
@@ -52,9 +65,9 @@ app.use('/api/users', userRoutes);
 // Error handling
 app.use(errorHandler);
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// SPA Fallback: serve React app for all non-API routes
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'frontend', 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {

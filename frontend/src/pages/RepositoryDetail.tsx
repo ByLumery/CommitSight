@@ -42,7 +42,7 @@ const RepositoryDetail: React.FC = () => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `repository-${repository.name}-analysis.csv`);
+      link.setAttribute('download', `repository-${safeRepository.name}-analysis.csv`);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -71,6 +71,26 @@ const RepositoryDetail: React.FC = () => {
     );
   }
 
+  // Add safety checks for repository properties
+  const safeRepository = {
+    ...repository,
+    name: repository.name || 'Unknown',
+    fullName: repository.fullName || repository.name || 'Unknown',
+    description: repository.description || '',
+    language: repository.language || '',
+    stars: repository.stars || 0,
+    forks: repository.forks || 0,
+    url: repository.url || '#',
+    updatedAt: repository.updatedAt || new Date().toISOString(),
+    commits: repository.commits || [],
+    _count: repository._count || {
+      commits: 0,
+      contributors: 0,
+      issues: 0,
+      pullRequests: 0
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {
       year: 'numeric',
@@ -91,8 +111,8 @@ const RepositoryDetail: React.FC = () => {
             <ArrowLeft className="h-5 w-5 text-gray-600" />
           </Link>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{repository.name}</h1>
-            <p className="text-gray-600">{repository.fullName}</p>
+            <h1 className="text-3xl font-bold text-gray-900">{safeRepository.name}</h1>
+            <p className="text-gray-600">{safeRepository.fullName}</p>
           </div>
         </div>
         <div className="flex space-x-2">
@@ -104,7 +124,7 @@ const RepositoryDetail: React.FC = () => {
             <span>Exportar CSV</span>
           </button>
           <a
-            href={repository.url}
+            href={safeRepository.url}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary flex items-center space-x-2"
@@ -121,37 +141,37 @@ const RepositoryDetail: React.FC = () => {
           <div className="text-center">
             <div className="flex items-center justify-center space-x-1 text-gray-600 mb-2">
               <Star className="h-5 w-5" />
-              <span className="text-2xl font-bold">{repository.stars}</span>
+              <span className="text-2xl font-bold">{safeRepository.stars}</span>
             </div>
             <p className="text-sm text-gray-500">Stars</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center space-x-1 text-gray-600 mb-2">
               <GitBranch className="h-5 w-5" />
-              <span className="text-2xl font-bold">{repository.forks}</span>
+              <span className="text-2xl font-bold">{safeRepository.forks}</span>
             </div>
             <p className="text-sm text-gray-500">Forks</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center space-x-1 text-gray-600 mb-2">
               <Users className="h-5 w-5" />
-              <span className="text-2xl font-bold">{repository._count.contributors}</span>
+              <span className="text-2xl font-bold">{safeRepository._count.contributors}</span>
             </div>
             <p className="text-sm text-gray-500">Contribuidores</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center space-x-1 text-gray-600 mb-2">
               <Calendar className="h-5 w-5" />
-              <span className="text-2xl font-bold">{repository._count.commits}</span>
+              <span className="text-2xl font-bold">{safeRepository._count.commits}</span>
             </div>
             <p className="text-sm text-gray-500">Commits</p>
           </div>
         </div>
 
-        {repository.description && (
+        {safeRepository.description && (
           <div className="mt-6 pt-6 border-t">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Descrição</h3>
-            <p className="text-gray-600">{repository.description}</p>
+            <p className="text-gray-600">{safeRepository.description}</p>
           </div>
         )}
 
@@ -160,21 +180,21 @@ const RepositoryDetail: React.FC = () => {
             <div>
               <h4 className="font-medium text-gray-900 mb-2">Linguagem Principal</h4>
               <div className="flex items-center space-x-2">
-                {repository.language && (
+                {safeRepository.language && (
                   <>
                     <div className="w-3 h-3 bg-primary-500 rounded-full"></div>
-                    <span className="text-gray-600">{repository.language}</span>
+                    <span className="text-gray-600">{safeRepository.language}</span>
                   </>
                 )}
               </div>
             </div>
             <div>
               <h4 className="font-medium text-gray-900 mb-2">Última Atualização</h4>
-              <p className="text-gray-600">{formatDate(repository.updatedAt)}</p>
+              <p className="text-gray-600">{formatDate(safeRepository.updatedAt)}</p>
             </div>
             <div>
               <h4 className="font-medium text-gray-900 mb-2">Issues</h4>
-              <p className="text-gray-600">{repository._count.issues} issues</p>
+              <p className="text-gray-600">{safeRepository._count.issues} issues</p>
             </div>
           </div>
         </div>
@@ -186,21 +206,21 @@ const RepositoryDetail: React.FC = () => {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Commits por Semana
           </h3>
-          <CommitChart repositories={[repository]} />
+          <CommitChart repositories={[safeRepository]} />
         </div>
 
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Distribuição de Linguagens
           </h3>
-          <LanguageChart repositories={[repository]} />
+          <LanguageChart repositories={[safeRepository]} />
         </div>
 
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Top Contribuidores
           </h3>
-          <ContributorChart repositories={[repository]} />
+          <ContributorChart repositories={[safeRepository]} />
         </div>
 
         <div className="card p-6">
@@ -210,32 +230,32 @@ const RepositoryDetail: React.FC = () => {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Total de Commits</span>
-              <span className="font-semibold">{repository._count.commits}</span>
+              <span className="font-semibold">{safeRepository._count.commits}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Total de Contribuidores</span>
-              <span className="font-semibold">{repository._count.contributors}</span>
+              <span className="font-semibold">{safeRepository._count.contributors}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Total de Issues</span>
-              <span className="font-semibold">{repository._count.issues}</span>
+              <span className="font-semibold">{safeRepository._count.issues}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Total de Pull Requests</span>
-              <span className="font-semibold">{repository._count.pullRequests}</span>
+              <span className="font-semibold">{safeRepository._count.pullRequests}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Recent Commits */}
-      {repository.commits && repository.commits.length > 0 && (
+      {safeRepository.commits && safeRepository.commits.length > 0 && (
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Commits Recentes
           </h3>
           <div className="space-y-3">
-            {repository.commits.slice(0, 10).map((commit: any) => (
+            {safeRepository.commits.slice(0, 10).map((commit: any) => (
               <div key={commit.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
