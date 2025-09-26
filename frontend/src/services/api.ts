@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "axios/dist/node/axios.cjs"; // CJS compatível com Jest padrão
 
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:3001/api",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: { "Content-Type": "application/json" },
 });
 

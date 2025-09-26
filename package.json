@@ -17,11 +17,24 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down"
   },
-  "keywords": ["github", "analyzer", "fullstack", "react", "nodejs", "typescript"],
+  "keywords": [
+    "github",
+    "analyzer",
+    "fullstack",
+    "react",
+    "nodejs",
+    "typescript"
+  ],
   "author": "CommitSight Team",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.5.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   }
 }
-
